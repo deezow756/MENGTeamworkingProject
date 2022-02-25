@@ -5,7 +5,9 @@ from . import graphs
 
 
 def index(request):
-  graph = graphs.return_interactive_graph()
+  barchart = graphs.return_bar_chart()
+  linechart = graphs.return_interactive_graph()
+  newchart = graphs.return_bar_chart()
     
-  return render(request, "index.html", {'chart': graph}) 
+  return render(request, "index.html", {'barchart': barchart, 'linechart': linechart, 'newchart': newchart}) 
   
