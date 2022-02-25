@@ -1,22 +1,30 @@
-{% load static %}
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>Emissions Website</title>
-        <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
-    </head>
-    <body>
-        <div class="container">
-            <div class="header">
-                Header, can put nav bar or something here
-            </div>
-            <div class="main-content">
-                map could go here..... just setting up a template for the site as an example as we haven't decided on a design
-            </div>
-            <div class="footer-content">
-                {{ chart|safe }}
-            </div>            
-        </div>
-    </body>
-</html>
+{% extends "_layout.html" %}
+
+<!-- styling is done with bootstrap since most people visit websites with there phones -->
+{% block content %}
+<div class=" container h-100 d-flex flex-column">
+    <div class=" row h-25">
+        <p class=" text-center">can put nav bar or something here</p>
+    </div>
+    <div class=" row h-25">
+        <p class=" text-center">map could go here..... just setting up a template for the site as an example as we haven't decided on a design</p>
+    </div>
+    <div class=" row h-25">
+        <div class=" col-md-4 p-3 text-center">
+            {{ barchart|safe }}
+        </div>  
+        <div class=" col-md-4 p-3 text-center">
+            {{ linechart|safe }}
+        </div> 
+        <div class=" col-md-4 p-3 text-center">
+            {{ newchart|safe }}
+        </div> 
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        // javascript/jquery
+    });
+</script>
+{% endblock %}
