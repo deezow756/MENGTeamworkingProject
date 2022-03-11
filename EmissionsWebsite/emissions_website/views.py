@@ -1,13 +1,16 @@
 from django.http import HttpResponse
 from django.template import loader
 from django.shortcuts import render
-from . import graphs
+from .graphs import Graphs
+from .map import Map
 
 
 def index(request):
-  barchart = graphs.return_bar_chart()
-  linechart = graphs.return_interactive_graph()
-  newchart = graphs.return_bar_chart()
+  
+  mapchart = Map.generate_map()
+  barchart = Graphs.return_bar_chart()
+  linechart = Graphs.return_line_chart()
+  scatterchart = Graphs.return_scatter_plot()
     
-  return render(request, "index.html", {'barchart': barchart, 'linechart': linechart, 'newchart': newchart}) 
+  return render(request, "index.html", context={'mapchart': mapchart, 'barchart': barchart, 'linechart': linechart, 'scatterchart': scatterchart}) 
   
