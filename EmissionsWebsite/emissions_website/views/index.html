@@ -1,30 +1,106 @@
 {% extends "_layout.html" %}
 {% load static %}
 <!-- styling is done with bootstrap since most people visit websites with there phones -->
+
+{% block stylesheet %}
+<style>
+    ul {
+        display: flex;
+        align-items: stretch; /* Default */
+        justify-content: space-between;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    li {
+        display: block;
+        flex: 0 1 auto; /* Default */
+        list-style-type: none;
+    }
+    #yearsRange{
+        width: 100%;
+    }
+</style>
+{% endblock %}
 {% block content %}
 <div class=" container mx-auto">
     <div class=" row">
-        <div class=" col-sm-12">
-            <!-- <img class=" img-fluid" src="{% static mapchart  %}"> -->
+        <div id="map_div" class=" col-sm-12">
             {{ mapchart|safe }}
         </div>  
     </div>
+    <div class=" row align-items-center justify-content-center">
+        <div>
+            <h3 id="rangeValue" class=" text-center"></h3>
+        </div>
+    </div>
+    <div class=" row align-items-center justify-content-center"></div>
+        <div>
+            <input id="yearsRange" type="range" class="form-range px-2" min="1990" max="2014">
+        </div>
+        <div>
+            <ul>
+                <li>
+                    <label class="form-label">1990</label>
+                </li>
+                <li>
+                    <label class="form-label">1993</label>
+                </li>
+                <li>
+                    <label class="form-label">1996</label>
+                </li>
+                <li>
+                    <label class="form-label">1999</label>
+                </li>
+                <li>
+                    <label class="form-label">2002</label>
+                </li>
+                <li>
+                    <label class="form-label">2005</label>
+                </li>
+                <li>
+                    <label class="form-label">2008</label>
+                </li>
+                <li>
+                    <label class="form-label">2011</label>
+                </li>
+                <li>
+                    <label class="form-label">2014</label>
+                </li>
+            </ul>
+        </div>
+    </div>    
     <div class="row mx-auto">
-        <div class=" col-sm-12 col-md-12 col-lg-4">
+        <div id="bar_div" class=" col-sm-12 col-md-12 col-lg-6">
             {{ barchart|safe }}
         </div>  
-        <div class=" col-sm-12 col-md-12 col-lg-4">
-            {{ linechart|safe }}
-        </div> 
-        <div class=" col-sm-12 col-md-12 col-lg-4">
+        <div class=" col-sm-12 col-md-12 col-lg-6">
             {{ scatterchart|safe }}
         </div> 
     </div>
 </div>
+{% endblock %}
 
-<!-- <script>
-    $(document).ready(function() {
-        // javascript/jquery
-    });
-</script> -->
+{% block javascript %}
+<script>
+    var slider = document.getElementById("yearsRange");
+    var output = document.getElementById("rangeValue");
+    output.innerHTML = slider.value; // Display the default slider value
+
+    // Update the current slider value (each time you drag the slider handle)
+    slider.oninput = function() {
+        output.innerHTML = this.value;
+        $.ajax({
+            url: '{% url "update" %}',
+            data: {
+              'year': this.value
+            },
+            dataType: 'json',
+            success: function (data) {
+              $("#map_div").html(data.map);
+              $("#bar_div").html(data.bar);
+            }
+          });
+    }
+</script>
 {% endblock %}

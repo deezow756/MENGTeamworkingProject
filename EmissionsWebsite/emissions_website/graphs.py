@@ -1,84 +1,60 @@
 from pathlib import Path
+from tkinter import Y
+
+from mpld3 import fig_to_html
+
 from emissions_website.settings import BASE_DIR
 
+
 class Graphs():
-  def return_line_chart():
-    
-    import matplotlib.pyplot as plt
-    import numpy as np
-    import pandas as pd  
-    import mpld3
-    from mpld3 import plugins
-    
-    # generate df
-    N = 100
-    df = pd.DataFrame((.1 * (np.random.random((N, 5)) - .5)).cumsum(0),
-                      columns=['a', 'b', 'c', 'd', 'e'],)
-    
-    # plot line + confidence interval
-    fig, ax = plt.subplots()
-    
-    fig.set_figheight(3)
-    fig.set_figwidth(3)
-    
-    ax.grid(True, alpha=0.3)
-
-    for key, val in df.iteritems():
-        l, = ax.plot(val.index, val.values, label=key)
-        ax.fill_between(val.index,
-                        val.values * .5, val.values * 1.5,
-                        color=l.get_color(), alpha=.4)
-
-    # # define interactive legend
-
-    # handles, labels = ax.get_legend_handles_labels() # return lines and labels
-    # interactive_legend = plugins.InteractiveLegendPlugin(zip(handles,
-    #                                                         ax.collections),
-    #                                                     labels,
-    #                                                     alpha_unsel=0.5,
-    #                                                     alpha_over=1.5, 
-    #                                                     start_visible=True)
-    # plugins.connect(fig, interactive_legend)
-
-    ax.set_xlabel('x')
-    ax.set_ylabel('y')
-    ax.set_title('Line Chart', size=20)
-    ax.axis('off')
-
-    # fig.figure.savefig(Path.joinpath(BASE_DIR, "static/media/interactivechart.png"))
-    # return "media/interactivechart.png"
   
-    return mpld3.fig_to_html(fig)
-
   def return_bar_chart():
-    import matplotlib.pyplot as plt
-    import numpy as np
-    import mpld3
-    from mpld3 import plugins
+    import pandas as pd
+    import plotly.express as px
+    import plotly.io as io
     
-    barFig, ax = plt.subplots()    
+    data2014 = pd.read_csv(Path.joinpath(BASE_DIR, "static/data/2014.csv"))
+    totalEmissions = data2014[['Country','Total']]
     
-    barFig.set_figheight(3)
-    barFig.set_figwidth(3)
+    top10 = totalEmissions.nlargest(n=10, columns=['Total'])
     
+    top10 = top10.iloc[::-1]   
     
-    # xvalues = range(5)  # the x locations for the groups
-    # yvalues = np.random.random_sample(5)
+    print(top10)
     
-    langs = ['C', 'C++', 'Java', 'Python', 'PHP']
-    students = [23,17,35,29,12]
-
-    width = 0.5  # the width of the bars  
-    ax.set_title('Bar Chart', size=20)
-    ax.bar(langs,students)
-    ax.axis('off')
+    fig = px.bar(x=top10["Country"], y=top10["Total"])
+    fig.update_layout(paper_bgcolor="#E8E8E8")
+    fig.update_xaxes(title= "", visible=True, showticklabels=True)
+    fig.update_yaxes(title= "", visible=True, showticklabels=True)
     
-    return mpld3.fig_to_html(barFig)
+    return io.to_html(fig)
+  
+  def generate_bar_chart(year):
+    import pandas as pd
+    import plotly.express as px
+    import plotly.io as io
+    
+    data2014 = pd.read_csv(Path.joinpath(BASE_DIR, "static/data/" + year + ".csv"))
+    totalEmissions = data2014[['Country','Total']]
+    
+    top10 = totalEmissions.nlargest(n=10, columns=['Total'])
+    
+    top10 = top10.iloc[::-1]   
+    
+    print(top10)
+    
+    fig = px.bar(x=top10["Country"], y=top10["Total"])
+    fig.update_layout(paper_bgcolor="#E8E8E8")
+    fig.update_xaxes(title= "", visible=True, showticklabels=True)
+    fig.update_yaxes(title= "", visible=True, showticklabels=True)
+    
+    return io.to_html(fig)
     
   def return_scatter_plot():
     import matplotlib.pyplot as plt
     import numpy as np
-    import mpld3
+    
+    return
     
     # Fixing random state for reproducibility
     #np.random.seed(19680801)
