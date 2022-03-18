@@ -41,34 +41,26 @@ class Graphs():
     
     top10 = top10.iloc[::-1]   
     
-    fig = px.bar(x=top10["Country"], y=top10["Total"])
+    fig = px.bar(x=top10["Country"], y=top10["Total"], title="Top 10 Countries With The Highest Emissions")
     fig.update_layout(paper_bgcolor="#E8E8E8")
+    fig.update_layout(title_text='Top 10 Countries With The Highest Emissions', title_x=0.5)
     fig.update_xaxes(title= "", visible=True, showticklabels=True)
     fig.update_yaxes(title= "", visible=True, showticklabels=True)
     
     return io.to_html(fig)
     
-  def return_scatter_plot():
-    import matplotlib.pyplot as plt
-    import numpy as np
+  def generate_pie_chart(year):
+    import pandas as pd
+    import plotly.express as px
+    import plotly.io as io    
     
-    return
+    data2014 = pd.read_csv(Path.joinpath(BASE_DIR, "static/data/" + year + ".csv"))
+    totalEmissions = data2014[['Country','Total']]
     
-    # Fixing random state for reproducibility
-    #np.random.seed(19680801)
-    N = 50
-    x = np.random.rand(N)
-    y = np.random.rand(N)
-    colors = np.random.rand(N)
-    area = (30 * np.random.rand(N))**2  # 0 to 15 point radii
-
-    scatterFig, ax = plt.subplots()
+    top20 = totalEmissions.nlargest(n=20, columns=['Total'])
     
-    scatterFig.set_figheight(3)
-    scatterFig.set_figwidth(3)
+    fig = px.pie(top20, values="Total", names="Country")
+    fig.update_layout(paper_bgcolor="#E8E8E8")
+    fig.update_layout(title_text='Top 20 Countries With The Highest Emissions', title_x=0.5)
     
-    ax.set_title('Scatter Plot', size=20)
-    ax.scatter(x, y, s=area, c=colors, alpha=0.5)      
-    ax.axis('off')
-    
-    return mpld3.fig_to_html(scatterFig)
+    return io.to_html(fig)

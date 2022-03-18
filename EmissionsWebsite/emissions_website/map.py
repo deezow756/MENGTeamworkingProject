@@ -66,7 +66,7 @@ class Map():
         maxRange = int(highest['Total'])
         
         fig = px.choropleth(totalEmissions, height=600 , color="Total", color_continuous_scale="rdylgn_r"
-                            , labels={"Total" : "Emissions Scale"}, locations="Country", locationmode="country names"
+                            , labels={"Total" : "Emissions"}, locations="Country", locationmode="country names"
                             , hover_data={"Country", "Total"}, range_color=[1, maxRange], )
         fig.update_layout(paper_bgcolor="#E8E8E8")
         return io.to_html(fig)

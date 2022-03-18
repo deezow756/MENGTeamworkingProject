@@ -70,12 +70,12 @@
             </ul>
         </div>
     </div>    
-    <div class="row mx-auto">
+    <div class="row mx-3">
         <div id="bar_div" class=" col-sm-12 col-md-12 col-lg-6">
             {{ barchart|safe }}
         </div>  
-        <div class=" col-sm-12 col-md-12 col-lg-6">
-            {{ scatterchart|safe }}
+        <div id="pie_div" class=" col-sm-12 col-md-12 col-lg-6">
+            {{ piechart|safe }}
         </div> 
     </div>
 </div>
@@ -99,6 +99,7 @@
             success: function (data) {
               $("#map_div").html(data.map);
               $("#bar_div").html(data.bar);
+              $("#pie_div").html(data.pie);
             }
           });
     }
