@@ -41,8 +41,6 @@ class Graphs():
     
     top10 = top10.iloc[::-1]   
     
-    print(top10)
-    
     fig = px.bar(x=top10["Country"], y=top10["Total"])
     fig.update_layout(paper_bgcolor="#E8E8E8")
     fig.update_xaxes(title= "", visible=True, showticklabels=True)

@@ -30,7 +30,6 @@ class Map():
         #scheme = mc.UserDefined(emissionWorld['Total'], bins)
         
         
-        
         fig = px.choropleth(totalEmissions, width=1200, height=700 , color="Total", color_continuous_scale="rdylgn_r"
                             , labels={"Total" : "Emissions Scale"}, locations="Country", locationmode="country names"
                             , hover_data={"Country", "Total"}, range_color=[1, 3000000], )
@@ -62,8 +61,12 @@ class Map():
         data2014 = pd.read_csv(Path.joinpath(BASE_DIR, "static/data/" + year +".csv"))
         totalEmissions = data2014[['Country','Total']]
         
-        fig = px.choropleth(totalEmissions, width=1200, height=700 , color="Total", color_continuous_scale="rdylgn_r"
+        highest = totalEmissions.nlargest(n=1, columns=['Total'])
+        
+        maxRange = int(highest['Total'])
+        
+        fig = px.choropleth(totalEmissions, height=600 , color="Total", color_continuous_scale="rdylgn_r"
                             , labels={"Total" : "Emissions Scale"}, locations="Country", locationmode="country names"
-                            , hover_data={"Country", "Total"}, range_color=[1, 3000000], )
+                            , hover_data={"Country", "Total"}, range_color=[1, maxRange], )
         fig.update_layout(paper_bgcolor="#E8E8E8")
         return io.to_html(fig)
