@@ -34,7 +34,7 @@ class Graphs():
     import plotly.express as px
     import plotly.io as io
     
-    data2014 = pd.read_csv(Path.joinpath(BASE_DIR, "static/data/" + year + ".csv"))
+    data2014 = pd.read_csv(Path.joinpath(BASE_DIR, "static/newdata/" + "PD" + year +".csv"))
     totalEmissions = data2014[['Country','Total']]
     
     top10 = totalEmissions.nlargest(n=10, columns=['Total'])
@@ -54,7 +54,7 @@ class Graphs():
     import plotly.express as px
     import plotly.io as io    
     
-    data2014 = pd.read_csv(Path.joinpath(BASE_DIR, "static/data/" + year + ".csv"))
+    data2014 = pd.read_csv(Path.joinpath(BASE_DIR, "static/newdata/" + "PD" + year +".csv"))
     totalEmissions = data2014[['Country','Total']]
     
     top20 = totalEmissions.nlargest(n=20, columns=['Total'])

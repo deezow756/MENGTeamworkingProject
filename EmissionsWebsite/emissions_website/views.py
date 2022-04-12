@@ -12,7 +12,7 @@ pieCharts = {}
 def index(request):
   
   index = 1990
-  for x in range(25):
+  for x in range(41):
     maps[str(index)] = Map.generate_map_year(str(index))
     barCharts[str(index)] = Graphs.generate_bar_chart(str(index))
     pieCharts[str(index)] = Graphs.generate_pie_chart(str(index))
